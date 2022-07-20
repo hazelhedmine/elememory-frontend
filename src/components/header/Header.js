@@ -1,7 +1,11 @@
+import SignUpForm from 'components/SignUpForm/SignUpForm'
+import { Link, Route, Routes, useNavigate } from 'react-router-dom'
+
 const { Box, Button } = require('@chakra-ui/react')
 const { ColorModeSwitcher } = require('./ColorModeSwitcher')
 
 const Header = props => {
+  // const navigate = useNavigate()
   return (
     <Box
       w={'100%'}
@@ -18,7 +22,12 @@ const Header = props => {
         mr={2}
       >
         <ColorModeSwitcher></ColorModeSwitcher>
-        <Button colorScheme={'yellow'}>SIGN UP</Button>
+        {/* <Button colorScheme={'yellow'} onClick={() => navigate('/sign-up')}>
+          SIGN UP
+        </Button> */}
+        <Link to={'/sign-up'}>
+          <Button colorScheme={'yellow'}>SIGN UP</Button>
+        </Link>
       </Box>
     </Box>
   )
