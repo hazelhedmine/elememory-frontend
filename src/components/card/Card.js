@@ -2,6 +2,8 @@
 This component creates the flash card.
 
 useState is used for question and answer values to handle change.
+
+TODO: settle text overflow
 */
 
 import { EditIcon } from '@chakra-ui/icons'
