@@ -1,3 +1,7 @@
+/*
+Add return to home page button
+*/
+
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import {
   Box,
