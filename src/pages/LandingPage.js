@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react'
-import Card from 'components/Card'
+import Card from 'components/card/Card'
 import LandingPageLayout from 'layouts/LandingPageLayout'
 
 const LandingPage = props => {
