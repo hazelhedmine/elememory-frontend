@@ -18,7 +18,7 @@ const Header = props => {
         mr={2}
       >
         <ColorModeSwitcher></ColorModeSwitcher>
-        <Button colorScheme={'yellow'}>LOGIN</Button>
+        <Button colorScheme={'yellow'}>SIGN UP</Button>
       </Box>
     </Box>
   )
