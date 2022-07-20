@@ -16,6 +16,7 @@ import {
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import SignupPageLayout from 'layouts/SignupPageLayout'
+import { NavLink } from 'react-router-dom'
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -82,7 +83,10 @@ const SignupPage = () => {
             </Stack>
             <Stack pt={6}>
               <Text align={'center'}>
-                Already a user? <Link color={'yellow.500'}>Login</Link>
+                Already a user?{' '}
+                <NavLink to={'/login'}>
+                  <Link color={'yellow.500'}>Login</Link>
+                </NavLink>
               </Text>
             </Stack>
           </Stack>

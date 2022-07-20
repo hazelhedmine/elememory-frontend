@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
-const { Box, Button } = require('@chakra-ui/react')
+const { Box, Button, Link } = require('@chakra-ui/react')
 const { ColorModeSwitcher } = require('./ColorModeSwitcher')
 
 const Header = props => {
@@ -18,11 +18,17 @@ const Header = props => {
         display={'flex'}
         gap={4}
         mr={2}
+        alignItems="center"
       >
         <ColorModeSwitcher></ColorModeSwitcher>
-        <Link to={'/sign-up'}>
+        <NavLink to={'/login'}>
+          <Link>
+            <b>LOGIN</b>
+          </Link>
+        </NavLink>
+        <NavLink to={'/sign-up'}>
           <Button colorScheme={'yellow'}>SIGN UP</Button>
-        </Link>
+        </NavLink>
       </Box>
     </Box>
   )
