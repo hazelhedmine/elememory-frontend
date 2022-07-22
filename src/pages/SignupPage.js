@@ -16,6 +16,7 @@ import {
   Text,
   useColorModeValue,
   useToast,
+  useBoolean,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
@@ -23,6 +24,7 @@ import SignupPageLayout from 'layouts/SignupPageLayout'
 import { NavLink } from 'react-router-dom'
 
 import signupService from 'services/signup'
+import RequiredInputField from 'components/signupForm/RequiredInputField'
 
 const SignupPage = () => {
   const [username, setUsername] = useState('')
@@ -31,10 +33,29 @@ const SignupPage = () => {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
+  const [firstNameMissing, setFirstNameMissing] = useBoolean()
+  const [usernameMissing, setUsernameMissing] = useBoolean()
+  const [passwordMissing, setPasswordMissing] = useBoolean()
+
   const errorToast = useToast()
   const handleSignUp = async event => {
     event.preventDefault()
-    console.log('signing up with :>> ', username)
+
+    if (firstName === '') {
+      setFirstNameMissing.on()
+    }
+
+    if (username === '') {
+      setUsernameMissing.on()
+    }
+
+    if (password === '') {
+      setPasswordMissing.on()
+    }
+
+    if (!firstName || !username || !password) {
+      return
+    }
 
     try {
       await signupService.signup({
@@ -43,18 +64,20 @@ const SignupPage = () => {
         lastName,
         password,
       })
+      console.log('signing up with :>> ', username)
       setUsername('') // form fields emptied
       setFirstName('')
       setLastName('')
       setPassword('')
     } catch (exception) {
       errorToast({
-        title: 'Sign up failed.',
-        description: 'Please fill in the required fields.',
+        title: 'Username already exists.',
+        description: 'Please choose another username.',
         status: 'error',
         duration: 9000,
         isClosable: true,
       })
+      setUsernameMissing.on()
     }
   }
 
@@ -78,14 +101,17 @@ const SignupPage = () => {
           <Stack spacing={4}>
             <HStack>
               <Box>
-                <FormControl id="firstName" isRequired>
+                <FormControl
+                  id="firstName"
+                  isInvalid={firstNameMissing}
+                  isRequired
+                >
                   <FormLabel>First Name</FormLabel>
-                  <Input
-                    type="text"
-                    focusBorderColor="yellow.400"
+                  <RequiredInputField
+                    setIsMissing={setFirstNameMissing}
                     value={firstName}
-                    onChange={event => setFirstName(event.target.value)}
-                  />
+                    setValue={setFirstName}
+                  ></RequiredInputField>
                 </FormControl>
               </Box>
               <Box>
@@ -100,24 +126,23 @@ const SignupPage = () => {
                 </FormControl>
               </Box>
             </HStack>
-            <FormControl id="username" isRequired>
+            <FormControl id="username" isInvalid={usernameMissing} isRequired>
               <FormLabel>Username</FormLabel>
-              <Input
-                type="text"
-                focusBorderColor="yellow.400"
+              <RequiredInputField
+                setIsMissing={setUsernameMissing}
                 value={username}
-                onChange={event => setUsername(event.target.value)}
-              />
+                setValue={setUsername}
+              ></RequiredInputField>
             </FormControl>
-            <FormControl id="password" isRequired>
+            <FormControl id="password" isInvalid={passwordMissing} isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input
-                  type={showPassword ? 'text' : 'password'}
-                  focusBorderColor="yellow.400"
+                <RequiredInputField
+                  setIsMissing={setPasswordMissing}
                   value={password}
-                  onChange={event => setPassword(event.target.value)}
-                />
+                  setValue={setPassword}
+                  type={showPassword ? 'text' : 'password'}
+                ></RequiredInputField>
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
