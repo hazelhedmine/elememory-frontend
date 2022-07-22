@@ -83,7 +83,8 @@ const SignupPage = () => {
                   <Input
                     type="text"
                     focusBorderColor="yellow.400"
-                    onChange={({ target }) => setFirstName(target.value)}
+                    value={firstName}
+                    onChange={event => setFirstName(event.target.value)}
                   />
                 </FormControl>
               </Box>
@@ -93,7 +94,8 @@ const SignupPage = () => {
                   <Input
                     type="text"
                     focusBorderColor="yellow.400"
-                    onChange={({ target }) => setLastName(target.value)}
+                    value={lastName}
+                    onChange={event => setLastName(event.target.value)}
                   />
                 </FormControl>
               </Box>
@@ -103,7 +105,8 @@ const SignupPage = () => {
               <Input
                 type="text"
                 focusBorderColor="yellow.400"
-                onChange={({ target }) => setUsername(target.value)}
+                value={username}
+                onChange={event => setUsername(event.target.value)}
               />
             </FormControl>
             <FormControl id="password" isRequired>
@@ -112,7 +115,8 @@ const SignupPage = () => {
                 <Input
                   type={showPassword ? 'text' : 'password'}
                   focusBorderColor="yellow.400"
-                  onChange={({ target }) => setPassword(target.value)}
+                  value={password}
+                  onChange={event => setPassword(event.target.value)}
                 />
                 <InputRightElement h={'full'}>
                   <Button
