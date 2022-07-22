@@ -15,15 +15,48 @@ import {
   Heading,
   Text,
   useColorModeValue,
-  Link,
+  useToast,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import SignupPageLayout from 'layouts/SignupPageLayout'
 import { NavLink } from 'react-router-dom'
 
+import signupService from 'services/signup'
+
 const SignupPage = () => {
+  const [username, setUsername] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+
+  const errorToast = useToast()
+  const handleSignUp = async event => {
+    event.preventDefault()
+    console.log('signing up with :>> ', username)
+
+    try {
+      await signupService.signup({
+        username,
+        firstName,
+        lastName,
+        password,
+      })
+      setUsername('') // form fields emptied
+      setFirstName('')
+      setLastName('')
+      setPassword('')
+    } catch (exception) {
+      errorToast({
+        title: 'Sign up failed.',
+        description: 'Please fill in the required fields.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
 
   return (
     <SignupPageLayout>
@@ -47,19 +80,31 @@ const SignupPage = () => {
               <Box>
                 <FormControl id="firstName" isRequired>
                   <FormLabel>First Name</FormLabel>
-                  <Input type="text" focusBorderColor="yellow.400" />
+                  <Input
+                    type="text"
+                    focusBorderColor="yellow.400"
+                    onChange={({ target }) => setFirstName(target.value)}
+                  />
                 </FormControl>
               </Box>
               <Box>
                 <FormControl id="lastName">
                   <FormLabel>Last Name</FormLabel>
-                  <Input type="text" focusBorderColor="yellow.400" />
+                  <Input
+                    type="text"
+                    focusBorderColor="yellow.400"
+                    onChange={({ target }) => setLastName(target.value)}
+                  />
                 </FormControl>
               </Box>
             </HStack>
             <FormControl id="username" isRequired>
               <FormLabel>Username</FormLabel>
-              <Input type="text" focusBorderColor="yellow.400" />
+              <Input
+                type="text"
+                focusBorderColor="yellow.400"
+                onChange={({ target }) => setUsername(target.value)}
+              />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
@@ -67,6 +112,7 @@ const SignupPage = () => {
                 <Input
                   type={showPassword ? 'text' : 'password'}
                   focusBorderColor="yellow.400"
+                  onChange={({ target }) => setPassword(target.value)}
                 />
                 <InputRightElement h={'full'}>
                   <Button
@@ -81,17 +127,22 @@ const SignupPage = () => {
               </InputGroup>
             </FormControl>
             <Stack spacing={10} pt={2}>
-              <Button loadingText="Submitting" size="lg" colorScheme={'yellow'}>
+              <Button
+                loadingText="Submitting"
+                size="lg"
+                colorScheme={'yellow'}
+                onClick={handleSignUp}
+              >
                 Sign up
               </Button>
             </Stack>
-            <Stack pt={6}>
-              <Text align={'center'}>
-                Already a user?{' '}
-                <NavLink to={'/login'}>
-                  <Link color={'yellow.500'}>Login</Link>
-                </NavLink>
-              </Text>
+            <Stack justify={'center'} direction={'horizontal'} pt={6} gap={2}>
+              <Text align={'center'}>Already a user?</Text>
+              <NavLink to={'/login'}>
+                <Button color={'yellow.500'} variant={'link'}>
+                  Login
+                </Button>
+              </NavLink>
             </Stack>
           </Stack>
         </Box>

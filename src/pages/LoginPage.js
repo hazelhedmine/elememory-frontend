@@ -74,13 +74,13 @@ const LoginPage = () => {
               <Button colorScheme={'yellow'}>Sign in</Button>
             </Stack>
           </Stack>
-          <Stack pt={6}>
-            <Text align={'center'}>
-              Not a user?{' '}
-              <NavLink to={'/sign-up'}>
-                <Link color={'yellow.500'}>Sign up</Link>
-              </NavLink>
-            </Text>
+          <Stack justify={'center'} direction={'horizontal'} pt={6} gap={2}>
+            <Text align={'center'}>Not a user?</Text>
+            <NavLink to={'/sign-up'}>
+              <Button color={'yellow.500'} variant={'link'}>
+                Sign up
+              </Button>
+            </NavLink>
           </Stack>
         </Box>
       </Stack>

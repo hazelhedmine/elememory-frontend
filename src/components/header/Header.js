@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 
-const { Box, Button, Link } = require('@chakra-ui/react')
+const { Box, Button, useColorModeValue } = require('@chakra-ui/react')
 const { ColorModeSwitcher } = require('./ColorModeSwitcher')
 
 const Header = props => {
@@ -22,9 +22,12 @@ const Header = props => {
       >
         <ColorModeSwitcher></ColorModeSwitcher>
         <NavLink to={'/login'}>
-          <Link>
-            <b>LOGIN</b>
-          </Link>
+          <Button
+            color={useColorModeValue('blackAlpha.900', 'whiteAlpha.900')}
+            variant={'link'}
+          >
+            LOGIN
+          </Button>
         </NavLink>
         <NavLink to={'/sign-up'}>
           <Button colorScheme={'yellow'}>SIGN UP</Button>
