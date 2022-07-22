@@ -17,6 +17,7 @@ import {
   useColorModeValue,
   useToast,
   useBoolean,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
@@ -25,6 +26,7 @@ import { NavLink } from 'react-router-dom'
 
 import signupService from 'services/signup'
 import RequiredInputField from 'components/signupForm/RequiredInputField'
+import SuccessfulAccountModal from 'components/signupForm/SuccessfulAccountModal'
 
 const SignupPage = () => {
   const [username, setUsername] = useState('')
@@ -36,6 +38,8 @@ const SignupPage = () => {
   const [firstNameMissing, setFirstNameMissing] = useBoolean()
   const [usernameMissing, setUsernameMissing] = useBoolean()
   const [passwordMissing, setPasswordMissing] = useBoolean()
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const errorToast = useToast()
   const handleSignUp = async event => {
@@ -69,6 +73,7 @@ const SignupPage = () => {
       setFirstName('')
       setLastName('')
       setPassword('')
+      onOpen()
     } catch (exception) {
       errorToast({
         title: 'Username already exists.',
@@ -176,6 +181,10 @@ const SignupPage = () => {
           </Stack>
         </Box>
       </Stack>
+      <SuccessfulAccountModal
+        isOpen={isOpen}
+        onClose={onClose}
+      ></SuccessfulAccountModal>
     </SignupPageLayout>
   )
 }
