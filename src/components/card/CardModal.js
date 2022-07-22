@@ -46,7 +46,7 @@ const CardModal = ({
       successToast({
         title: 'Card has been updated.',
         status: 'success',
-        duration: 9000,
+        duration: 6000,
         isClosable: true,
       })
     },

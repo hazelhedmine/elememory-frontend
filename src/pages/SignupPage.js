@@ -58,6 +58,13 @@ const SignupPage = () => {
     }
 
     if (!firstName || !username || !password) {
+      errorToast({
+        title: 'Missing fields.',
+        description: 'Please fill in all the required fields.',
+        status: 'error',
+        duration: 6000,
+        isClosable: true,
+      })
       return
     }
 
@@ -79,7 +86,7 @@ const SignupPage = () => {
         title: 'Username already exists.',
         description: 'Please choose another username.',
         status: 'error',
-        duration: 9000,
+        duration: 6000,
         isClosable: true,
       })
       setUsernameMissing.on()
