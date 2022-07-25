@@ -4,6 +4,7 @@ import LandingPage from 'pages/LandingPage'
 import { Route, Routes } from 'react-router-dom'
 import SignupPage from 'pages/SignupPage'
 import LoginPage from 'pages/LoginPage'
+import HomePage from 'pages/HomePage'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<LandingPage></LandingPage>}></Route>
         <Route path="/sign-up" element={<SignupPage></SignupPage>}></Route>
         <Route path="/login" element={<LoginPage></LoginPage>}></Route>
+        <Route path="/home" element={<HomePage></HomePage>}></Route>
       </Routes>
     </ChakraProvider>
   )

@@ -1,5 +1,7 @@
 /*
 Add return to home page button
+
+TODO: add token handling
 */
 
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
@@ -7,7 +9,6 @@ import {
   Box,
   FormControl,
   FormLabel,
-  Input,
   Checkbox,
   Stack,
   Link,
@@ -17,13 +18,72 @@ import {
   useColorModeValue,
   InputGroup,
   InputRightElement,
+  useBoolean,
+  useToast,
 } from '@chakra-ui/react'
+import RequiredInputField from 'components/signupForm/RequiredInputField'
 import LoginPageLayout from 'layouts/LoginPageLayout'
 import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+
+import loginService from 'services/login'
 
 const LoginPage = () => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [user, setUser] = useState(null)
+
+  const [usernameMissing, setUsernameMissing] = useBoolean()
+  const [passwordMissing, setPasswordMissing] = useBoolean()
+
+  const navigate = useNavigate()
+
+  const errorToast = useToast()
+  const handleLogin = async event => {
+    event.preventDefault()
+
+    if (username === '') {
+      setUsernameMissing.on()
+    }
+
+    if (password === '') {
+      setPasswordMissing.on()
+    }
+
+    if (!username || !password) {
+      errorToast({
+        title: 'Missing fields.',
+        description: 'Please fill in all the required fields.',
+        status: 'error',
+        duration: 6000,
+        isClosable: true,
+      })
+      return
+    }
+
+    try {
+      const user = await loginService.login({
+        username,
+        password,
+      })
+      console.log('user logged in :>> ', username)
+      setUser(user)
+      setUsername('') // form fields emptied
+      setPassword('')
+      navigate('/home')
+    } catch (exception) {
+      errorToast({
+        title: 'Username does not exist.',
+        description:
+          "Please check if you've entered the correct username or create a new account.",
+        status: 'error',
+        duration: 6000,
+        isClosable: true,
+      })
+      setUsernameMissing.on()
+    }
+  }
 
   return (
     <LoginPageLayout>
@@ -38,17 +98,25 @@ const LoginPage = () => {
           p={8}
         >
           <Stack spacing={4}>
-            <FormControl id="email">
+            <FormControl id="username" isInvalid={usernameMissing} isRequired>
               <FormLabel>Username</FormLabel>
-              <Input type="email" focusBorderColor="yellow.400" />
+              <RequiredInputField
+                id="usernameInput"
+                setIsMissing={setUsernameMissing}
+                value={username}
+                setValue={setUsername}
+              ></RequiredInputField>
             </FormControl>
-            <FormControl id="password">
+            <FormControl id="password" isInvalid={passwordMissing} isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input
+                <RequiredInputField
+                  id="passwordInput"
+                  setIsMissing={setPasswordMissing}
+                  value={password}
+                  setValue={setPassword}
                   type={showPassword ? 'text' : 'password'}
-                  focusBorderColor="yellow.400"
-                />
+                ></RequiredInputField>
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
@@ -71,7 +139,9 @@ const LoginPage = () => {
                 <Link color={'yellow.500'}>Forgot password?</Link>
                 {/* TODO: implement functionality for above */}
               </Stack>
-              <Button colorScheme={'yellow'}>Sign in</Button>
+              <Button colorScheme={'yellow'} onClick={handleLogin}>
+                Sign in
+              </Button>
             </Stack>
           </Stack>
           <Stack justify={'center'} direction={'horizontal'} pt={6} gap={2}>
