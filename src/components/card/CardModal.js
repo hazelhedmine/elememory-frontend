@@ -67,6 +67,7 @@ const CardModal = ({
           <FormControl>
             <FormLabel>Question</FormLabel>
             <Input
+              id="question-input"
               name="question"
               type="text"
               onChange={formik.handleChange}
@@ -75,6 +76,7 @@ const CardModal = ({
             />
             <FormLabel>Answer</FormLabel>
             <Input
+              id="answer-input"
               name="answer"
               type="text"
               onChange={formik.handleChange}

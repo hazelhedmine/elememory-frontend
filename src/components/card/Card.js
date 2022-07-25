@@ -75,6 +75,7 @@ const Card = props => {
         </Stack>
         <Box marginLeft={'auto'}>
           <IconButton
+            id="edit-card-button"
             colorScheme={'yellow'}
             size={'sm'}
             icon={<EditIcon></EditIcon>}
@@ -92,6 +93,7 @@ const Card = props => {
       </Box>
 
       <Text
+        id="card-text"
         padding={2}
         fontSize={'lg'}
         textAlign={'center'}
