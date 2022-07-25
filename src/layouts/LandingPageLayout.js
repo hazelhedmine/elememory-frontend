@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import Footer from 'components/footer/footer'
+import Footer from 'components/footer/Footer'
 import Header from 'components/header/Header'
 
 const LandingPageLayout = props => {
