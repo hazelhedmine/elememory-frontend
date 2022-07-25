@@ -120,6 +120,7 @@ const SignupPage = () => {
                 >
                   <FormLabel>First Name</FormLabel>
                   <RequiredInputField
+                    id="firstNameInput"
                     setIsMissing={setFirstNameMissing}
                     value={firstName}
                     setValue={setFirstName}
@@ -130,6 +131,7 @@ const SignupPage = () => {
                 <FormControl id="lastName">
                   <FormLabel>Last Name</FormLabel>
                   <Input
+                    id="lastNameInput"
                     type="text"
                     focusBorderColor="yellow.400"
                     value={lastName}
@@ -141,6 +143,7 @@ const SignupPage = () => {
             <FormControl id="username" isInvalid={usernameMissing} isRequired>
               <FormLabel>Username</FormLabel>
               <RequiredInputField
+                id="usernameInput"
                 setIsMissing={setUsernameMissing}
                 value={username}
                 setValue={setUsername}
@@ -150,6 +153,7 @@ const SignupPage = () => {
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <RequiredInputField
+                  id="passwordInput"
                   setIsMissing={setPasswordMissing}
                   value={password}
                   setValue={setPassword}
@@ -169,6 +173,7 @@ const SignupPage = () => {
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
+                id="signUpButton"
                 loadingText="Submitting"
                 size="lg"
                 colorScheme={'yellow'}
