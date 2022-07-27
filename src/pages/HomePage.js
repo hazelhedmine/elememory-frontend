@@ -1,24 +1,26 @@
-import { useEffect, useState } from 'react'
-import loginService from 'services/login'
+import { useNavigate } from 'react-router-dom'
 
-const { Box } = require('@chakra-ui/react')
+const { Box, Button } = require('@chakra-ui/react')
 
-const HomePage = props => {
-  const [user, setUser] = useState(null)
-
-  useEffect(() => {
-    const loggedUserJSON =
-      window.localStorage.getItem('loggedUser') ||
-      window.sessionStorage.getItem('loggedUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      loginService.setToken(user.token)
-    }
-  }, [])
+const HomePage = ({ user, removeUser }) => {
+  const navigate = useNavigate()
 
   console.log('user :>> ', user)
-  return <Box>hi {user.username}</Box>
+
+  const handleLogout = event => {
+    event.preventDefault()
+    removeUser()
+    navigate('/', { replace: true })
+  }
+
+  return (
+    <Box>
+      <Box>hi {user.username}</Box>
+      <Button colorScheme={'yellow'} onClick={handleLogout}>
+        Log out
+      </Button>
+    </Box>
+  )
 }
 
 export default HomePage

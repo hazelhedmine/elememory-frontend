@@ -64,19 +64,10 @@ const LoginPage = ({ setUser }) => {
         username,
         password,
       })
-
-      if (saveUser) {
-        window.localStorage.setItem('loggedUser', JSON.stringify(user))
-        console.log('saveUser :>> ', saveUser)
-      } else {
-        window.sessionStorage.setItem('loggedUser', JSON.stringify(user))
-        console.log('sessionUser :>> ', saveUser)
-      }
       console.log('user logged in :>> ', username)
-      loginService.setToken(user.token)
-      setUser(user)
       setUsername('') // form fields emptied
       setPassword('')
+      setUser(user, saveUser)
       navigate('/home')
     } catch (exception) {
       console.log('exception :>> ', exception)
