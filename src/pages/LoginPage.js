@@ -71,15 +71,26 @@ const LoginPage = ({ setUser }) => {
       navigate('/home')
     } catch (exception) {
       console.log('exception :>> ', exception)
-      errorToast({
-        title: 'Username does not exist.',
-        description:
-          "Please check if you've entered the correct username or create a new account.",
-        status: 'error',
-        duration: 6000,
-        isClosable: true,
-      })
-      setUsernameMissing.on()
+      if (exception.response.data.error === 'invalid username') {
+        errorToast({
+          title: 'Username does not exist.',
+          description:
+            "Please check if you've entered the correct username or create a new account.",
+          status: 'error',
+          duration: 6000,
+          isClosable: true,
+        })
+        setUsernameMissing.on()
+      } else if (exception.response.data.error === 'invalid password') {
+        errorToast({
+          title: 'Password is wrong.',
+          description: "Please check if you've entered the correct password.",
+          status: 'error',
+          duration: 6000,
+          isClosable: true,
+        })
+        setPasswordMissing.on()
+      }
     }
   }
 
