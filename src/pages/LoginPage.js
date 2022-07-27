@@ -1,7 +1,5 @@
 /*
 Add return to home page button
-
-TODO: add token handling
 */
 
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
@@ -28,14 +26,13 @@ import { NavLink, useNavigate } from 'react-router-dom'
 
 import loginService from 'services/login'
 
-const LoginPage = () => {
+const LoginPage = ({ setUser }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [user, setUser] = useState(null)
-
   const [usernameMissing, setUsernameMissing] = useBoolean()
   const [passwordMissing, setPasswordMissing] = useBoolean()
+  const [saveUser, setSaveUser] = useBoolean()
 
   const navigate = useNavigate()
 
@@ -67,12 +64,22 @@ const LoginPage = () => {
         username,
         password,
       })
+
+      if (saveUser) {
+        window.localStorage.setItem('loggedUser', JSON.stringify(user))
+        console.log('saveUser :>> ', saveUser)
+      } else {
+        window.sessionStorage.setItem('loggedUser', JSON.stringify(user))
+        console.log('sessionUser :>> ', saveUser)
+      }
       console.log('user logged in :>> ', username)
+      loginService.setToken(user.token)
       setUser(user)
       setUsername('') // form fields emptied
       setPassword('')
       navigate('/home')
     } catch (exception) {
+      console.log('exception :>> ', exception)
       errorToast({
         title: 'Username does not exist.',
         description:
@@ -135,7 +142,12 @@ const LoginPage = () => {
                 align={'start'}
                 justify={'space-between'}
               >
-                <Checkbox colorScheme={'yellow'}>Remember me</Checkbox>
+                <Checkbox
+                  colorScheme={'yellow'}
+                  onChange={() => setSaveUser.toggle()}
+                >
+                  Remember me
+                </Checkbox>
                 <Link color={'yellow.500'}>Forgot password?</Link>
                 {/* TODO: implement functionality for above */}
               </Stack>
