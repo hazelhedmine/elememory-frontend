@@ -35,7 +35,10 @@ function App() {
           path="/login"
           element={<LoginPage setUser={setUser}></LoginPage>}
         ></Route>
-        <Route path="/home" element={<HomePage></HomePage>}></Route>
+        <Route
+          path="/home"
+          element={user ? <HomePage></HomePage> : <Navigate to="/" />}
+        ></Route>
       </Routes>
     </ChakraProvider>
   )

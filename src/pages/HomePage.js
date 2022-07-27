@@ -17,10 +17,8 @@ const HomePage = props => {
     }
   }, [])
 
-  if (user) {
-    console.log('user :>> ', user)
-    return <Box>hi {user.username}</Box>
-  }
+  console.log('user :>> ', user)
+  return <Box>hi {user.username}</Box>
 }
 
 export default HomePage
