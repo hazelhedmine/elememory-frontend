@@ -170,6 +170,13 @@ const LoginPage = ({ setUser }) => {
               </Button>
             </NavLink>
           </Stack>
+          <Stack justify={'center'} direction={'horizontal'} gap={2}>
+            <NavLink to={'/'}>
+              <Button color={'yellow.500'} variant={'link'}>
+                Return to main page
+              </Button>
+            </NavLink>
+          </Stack>
         </Box>
       </Stack>
     </LoginPageLayout>

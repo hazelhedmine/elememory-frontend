@@ -110,7 +110,7 @@ const SignupPage = () => {
           boxShadow={'lg'}
           p={8}
         >
-          <Stack spacing={4}>
+          <Stack>
             <HStack>
               <Box>
                 <FormControl
@@ -187,6 +187,13 @@ const SignupPage = () => {
               <NavLink to={'/login'}>
                 <Button color={'yellow.500'} variant={'link'}>
                   Login
+                </Button>
+              </NavLink>
+            </Stack>
+            <Stack justify={'center'} direction={'horizontal'} gap={2}>
+              <NavLink to={'/'}>
+                <Button color={'yellow.500'} variant={'link'}>
+                  Return to main page
                 </Button>
               </NavLink>
             </Stack>
