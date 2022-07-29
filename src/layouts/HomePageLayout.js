@@ -2,7 +2,7 @@ import { Flex } from '@chakra-ui/react'
 import Footer from 'components/footer/Footer'
 import Header from 'components/header/Header'
 
-const LandingPageLayout = props => {
+const HomePageLayout = ({ user, removeUser, ...props }) => {
   return (
     <Flex
       direction="column"
@@ -13,11 +13,11 @@ const LandingPageLayout = props => {
       minH="100vh"
       {...props}
     >
-      <Header user={props.user}></Header>
+      <Header user={user} removeUser={removeUser}></Header>
       {props.children}
       <Footer></Footer>
     </Flex>
   )
 }
 
-export default LandingPageLayout
+export default HomePageLayout
