@@ -4,8 +4,10 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import Header from './Header'
 
+//TODO: fix tests
+
 describe('<Header />', () => {
-  it('successfully renders', () => {
+  it('successfully renders on landing page', () => {
     const { container } = render(
       <MemoryRouter>
         <Header></Header>

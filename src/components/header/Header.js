@@ -7,8 +7,11 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Show,
+  IconButton,
+  Hide,
 } from '@chakra-ui/react'
-import { ChevronDownIcon, LockIcon } from '@chakra-ui/icons'
+import { ChevronDownIcon, HamburgerIcon, LockIcon } from '@chakra-ui/icons'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { ColorModeSwitcher } from './ColorModeSwitcher'
 
@@ -47,13 +50,22 @@ const Header = ({ user, removeUser }) => {
         </Flex>
         <Flex gap={4} mr={2} alignItems="center" style={showWithUser}>
           <Menu>
-            <MenuButton
-              as={Button}
-              colorScheme={'yellow'}
-              rightIcon={<ChevronDownIcon></ChevronDownIcon>}
-            >
-              Account
-            </MenuButton>
+            <Hide below="sm">
+              <MenuButton
+                as={Button}
+                colorScheme={'yellow'}
+                rightIcon={<ChevronDownIcon></ChevronDownIcon>}
+              >
+                Account
+              </MenuButton>
+            </Hide>
+            <Show below="sm">
+              <MenuButton
+                as={IconButton}
+                colorScheme={'yellow'}
+                icon={<HamburgerIcon></HamburgerIcon>}
+              ></MenuButton>
+            </Show>
             <MenuList>
               {/* <MenuItem icon={<SettingsIcon></SettingsIcon>}>Settings</MenuItem> */}
               <MenuItem icon={<LockIcon></LockIcon>} onClick={handleLogout}>
