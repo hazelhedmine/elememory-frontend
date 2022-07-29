@@ -153,7 +153,11 @@ const LoginPage = ({ setUser }) => {
                 <Link color={'yellow.500'}>Forgot password?</Link>
                 {/* TODO: implement functionality for above */}
               </Stack>
-              <Button colorScheme={'yellow'} onClick={handleLogin}>
+              <Button
+                id="signInButton"
+                colorScheme={'yellow'}
+                onClick={handleLogin}
+              >
                 Sign in
               </Button>
             </Stack>

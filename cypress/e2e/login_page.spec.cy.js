@@ -1,50 +1,124 @@
 describe('Note app', function () {
-  beforeEach(function () {
-    // empty users database
-    cy.request('POST', 'http://localhost:3001/api/testing/reset')
+  describe('Testing login form', function () {
+    beforeEach(function () {
+      // empty users database
+      cy.request('POST', 'http://localhost:3001/api/testing/reset')
 
-    const user = {
-      username: 'test123',
-      firstName: 'test',
-      lastName: '123',
-      password: 'test123',
-    }
-    cy.request('POST', 'http://localhost:3001/api/users/', user)
+      const user = {
+        username: 'test123',
+        firstName: 'test',
+        lastName: '123',
+        password: 'test123',
+      }
+      cy.request('POST', 'http://localhost:3001/api/users/', user)
 
-    cy.visit('http://localhost:3000')
-    cy.contains('LOGIN').click()
+      cy.clearLocalStorage('loggedUser')
+      cy.window().then(win => {
+        win.sessionStorage.clear()
+      })
+      cy.visit('http://localhost:3000')
+      cy.contains('LOGIN').click()
+    })
+
+    it('user can login with all fields filled', function () {
+      cy.get('#usernameInput').type('test123')
+      cy.get('#passwordInput').type('test123')
+      cy.get('#signInButton').click()
+
+      // home page
+      cy.contains('hi test123')
+    })
+
+    it('user cannot login with non-existing username', function () {
+      cy.get('#usernameInput').type('mluukkai')
+      cy.get('#passwordInput').type('test123')
+      cy.get('#signInButton').click()
+
+      // error toast
+      cy.contains('Username does not exist.')
+      cy.get('html').should('not.contain', 'hi test123')
+    })
+
+    it('user cannot login with wrong password', function () {
+      cy.get('#usernameInput').type('test123')
+      cy.get('#passwordInput').type('wrong')
+      cy.get('#signInButton').click()
+
+      // error toast
+      cy.contains('Password is wrong.')
+      cy.get('html').should('not.contain', 'hi test123')
+    })
+
+    it('user cannot login with missing username', function () {
+      cy.get('#passwordInput').type('wrong')
+      cy.get('#signInButton').click()
+
+      // error toast
+      cy.contains('Missing fields.')
+      cy.get('html').should('not.contain', 'hi test123')
+    })
+
+    it('user cannot login with missing password', function () {
+      cy.get('#usernameInput').type('username')
+      cy.get('#signInButton').click()
+
+      // error toast
+      cy.contains('Missing fields.')
+      cy.get('html').should('not.contain', 'hi test123')
+    })
   })
 
-  it('user can login with all fields filled', function () {
-    cy.get('#usernameInput').type('test123')
-    cy.get('#passwordInput').type('test123')
-    cy.get('#signUpButton').click()
+  describe('Testing user session', function () {
+    beforeEach(function () {
+      cy.request('POST', 'http://localhost:3001/api/testing/reset')
 
-    // home page
-    cy.contains('hi test123')
-  })
+      const user = {
+        username: 'test123',
+        firstName: 'test',
+        lastName: '123',
+        password: 'test123',
+      }
+      cy.request('POST', 'http://localhost:3001/api/users/', user)
 
-  it('user cannot login with non-existing username', function () {
-    cy.get('#usernameInput').type('mluukkai')
-    cy.get('#passwordInput').type('test123')
-    cy.get('#signUpButton').click()
+      cy.clearLocalStorage('loggedUser')
+      cy.window().then(win => {
+        win.sessionStorage.clear()
+      })
+      cy.visit('http://localhost:3000')
+      cy.contains('LOGIN').click()
+      cy.get('#usernameInput').type('test123')
+      cy.get('#passwordInput').type('test123')
+    })
 
-    // error toast
-    cy.contains('Username already exists.')
-    cy.get('html').should(
-      'not.contain',
-      'Your account has been successfully created.'
-    )
-  })
+    it('user is saved to localStorage when remember me is checked', function () {
+      cy.contains('Remember me').click()
+      cy.get('#signInButton').click()
 
-  it('user cannot sign up with missing fields', function () {
-    cy.get('#signUpButton').click()
+      // home page
+      cy.contains('hi test123')
+      cy.window()
+        .its('localStorage')
+        .invoke('getItem', 'loggedUser')
+        .should('exist')
+      cy.window()
+        .its('sessionStorage')
+        .invoke('getItem', 'loggedUser')
+        .should('not.exist')
+    })
 
-    // error toast
-    cy.contains('Missing fields.')
-    cy.get('html').should(
-      'not.contain',
-      'Your account has been successfully created.'
-    )
+    it('user is saved to sessionStorage when remember me is not checked', function () {
+      cy.get('#signInButton').click()
+
+      // home page
+      cy.contains('hi test123')
+      cy.window()
+        .its('sessionStorage')
+        .invoke('getItem', 'loggedUser')
+        .should('exist')
+      cy.window()
+        .its('localStorage')
+        .invoke('getItem', 'loggedUser')
+        .should('not.exist')
+    })
   })
 })
