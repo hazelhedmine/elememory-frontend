@@ -1,48 +1,49 @@
-/*
-Add return to home page button
-*/
-
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import {
-  Box,
   FormControl,
   FormLabel,
-  Input,
-  InputGroup,
-  HStack,
-  InputRightElement,
   Stack,
   Button,
   Heading,
-  Text,
   useColorModeValue,
-  useToast,
+  Flex,
+  Input,
   useBoolean,
-  useDisclosure,
+  HStack,
+  Box,
+  InputGroup,
+  InputRightElement,
+  useToast,
+  FormHelperText,
 } from '@chakra-ui/react'
-import { useState } from 'react'
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-import SignupPageLayout from 'layouts/SignupPageLayout'
-import { NavLink } from 'react-router-dom'
-
-import userService from 'services/users'
 import RequiredInputField from 'components/signupForm/RequiredInputField'
-import SuccessfulAccountModal from 'components/signupForm/SuccessfulAccountModal'
+import HomePageLayout from 'layouts/HomePageLayout'
+import { useState } from 'react'
+import userService from 'services/users'
 
-const SignupPage = () => {
-  const [username, setUsername] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [password, setPassword] = useState('')
+const ProfilePage = ({ user, setUser, removeUser }) => {
+  const [username, setUsername] = useState(user.username)
+  const [firstName, setFirstName] = useState(user.firstName)
+  const [lastName, setLastName] = useState(user.lastName)
+  const [password, setPassword] = useState(user.password)
   const [showPassword, setShowPassword] = useState(false)
+  const [editMode, setEditMode] = useBoolean()
 
   const [firstNameMissing, setFirstNameMissing] = useBoolean()
   const [usernameMissing, setUsernameMissing] = useBoolean()
   const [passwordMissing, setPasswordMissing] = useBoolean()
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const hideOnEditMode = { display: editMode ? 'none' : '' }
+  const showOnEditMode = { display: editMode ? '' : 'none' }
 
   const errorToast = useToast()
-  const handleSignUp = async event => {
+
+  const handleClose = async event => {
+    event.preventDefault()
+    setEditMode.off()
+  }
+
+  const handleSave = async event => {
     event.preventDefault()
 
     if (firstName === '') {
@@ -69,54 +70,68 @@ const SignupPage = () => {
     }
 
     try {
-      await userService.signup({
+      const newUser = await userService.update(user.id, {
         username,
         firstName,
         lastName,
         password,
       })
-      console.log('signing up with :>> ', username)
-      setUsername('') // form fields emptied
-      setFirstName('')
-      setLastName('')
-      setPassword('')
-      onOpen()
+      setUser(newUser)
+      setEditMode.off()
+      errorToast({
+        title: 'Your profile has been successfully updated.',
+        status: 'success',
+        duration: 6000,
+        isClosable: true,
+      })
     } catch (exception) {
       errorToast({
-        title: 'Username already exists.',
-        description: 'Please choose another username.',
+        title: 'An unexpected error has occurred.',
+        description: 'Please try again.',
         status: 'error',
         duration: 6000,
         isClosable: true,
       })
-      setUsernameMissing.on()
     }
   }
 
   return (
-    <SignupPageLayout>
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        <Stack align={'center'}>
-          <Heading fontSize={'4xl'} textAlign={'center'}>
-            Sign up
-          </Heading>
-          <Text fontSize={'lg'} opacity={0.8}>
-            to start making your flashcards!
-          </Text>
-        </Stack>
-        <Box
-          rounded={'lg'}
+    <HomePageLayout user={user} removeUser={removeUser}>
+      <Flex align={'center'} justify={'center'}>
+        <Stack
+          spacing={4}
+          w={'full'}
+          maxW={'md'}
           bg={useColorModeValue('white', 'gray.700')}
+          rounded={'xl'}
           boxShadow={'lg'}
-          p={8}
+          p={6}
+          my={12}
         >
+          <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
+            {editMode ? 'Edit User Profile' : 'User Profile'}
+          </Heading>
+
           <Stack>
+            <FormControl id="username" isInvalid={usernameMissing}>
+              <FormLabel>Username</FormLabel>
+              <RequiredInputField
+                id="usernameInput"
+                setIsMissing={setUsernameMissing}
+                value={username}
+                setValue={setUsername}
+                readOnly
+              ></RequiredInputField>
+              <FormHelperText style={showOnEditMode}>
+                Username cannot be changed.
+              </FormHelperText>
+            </FormControl>
             <HStack>
               <Box>
                 <FormControl
                   id="firstName"
                   isInvalid={firstNameMissing}
-                  isRequired
+                  isRequired={editMode}
                 >
                   <FormLabel>First Name</FormLabel>
                   <RequiredInputField
@@ -124,6 +139,7 @@ const SignupPage = () => {
                     setIsMissing={setFirstNameMissing}
                     value={firstName}
                     setValue={setFirstName}
+                    readOnly={!editMode}
                   ></RequiredInputField>
                 </FormControl>
               </Box>
@@ -135,21 +151,17 @@ const SignupPage = () => {
                     type="text"
                     focusBorderColor="yellow.400"
                     value={lastName}
+                    readOnly={!editMode}
                     onChange={event => setLastName(event.target.value)}
                   />
                 </FormControl>
               </Box>
             </HStack>
-            <FormControl id="username" isInvalid={usernameMissing} isRequired>
-              <FormLabel>Username</FormLabel>
-              <RequiredInputField
-                id="usernameInput"
-                setIsMissing={setUsernameMissing}
-                value={username}
-                setValue={setUsername}
-              ></RequiredInputField>
-            </FormControl>
-            <FormControl id="password" isInvalid={passwordMissing} isRequired>
+            <FormControl
+              id="password"
+              isInvalid={passwordMissing}
+              isRequired={editMode}
+            >
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <RequiredInputField
@@ -157,6 +169,7 @@ const SignupPage = () => {
                   setIsMissing={setPasswordMissing}
                   value={password}
                   setValue={setPassword}
+                  readOnly={!editMode}
                   type={showPassword ? 'text' : 'password'}
                 ></RequiredInputField>
                 <InputRightElement h={'full'}>
@@ -171,41 +184,35 @@ const SignupPage = () => {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            <Stack spacing={10} pt={2}>
+            <Stack spacing={10} pt={2} style={hideOnEditMode}>
               <Button
                 id="signUpButton"
                 loadingText="Submitting"
                 size="lg"
                 colorScheme={'yellow'}
-                onClick={handleSignUp}
+                onClick={() => setEditMode.on()}
               >
-                Sign up
+                Edit
               </Button>
             </Stack>
-            <Stack justify={'center'} direction={'horizontal'} pt={6} gap={2}>
-              <Text align={'center'}>Already a user?</Text>
-              <NavLink to={'/login'}>
-                <Button color={'yellow.500'} variant={'link'}>
-                  Login
-                </Button>
-              </NavLink>
-            </Stack>
-            <Stack justify={'center'} direction={'horizontal'} gap={2}>
-              <NavLink to={'/'}>
-                <Button color={'yellow.500'} variant={'link'}>
-                  Return to main page
-                </Button>
-              </NavLink>
+            <Stack
+              spacing={10}
+              pt={2}
+              direction={['column', 'row']}
+              style={showOnEditMode}
+            >
+              <Button w="full" onClick={handleClose}>
+                Cancel
+              </Button>
+              <Button colorScheme={'yellow'} w="full" onClick={handleSave}>
+                Save
+              </Button>
             </Stack>
           </Stack>
-        </Box>
-      </Stack>
-      <SuccessfulAccountModal
-        isOpen={isOpen}
-        onClose={onClose}
-      ></SuccessfulAccountModal>
-    </SignupPageLayout>
+        </Stack>
+      </Flex>
+    </HomePageLayout>
   )
 }
 
-export default SignupPage
+export default ProfilePage

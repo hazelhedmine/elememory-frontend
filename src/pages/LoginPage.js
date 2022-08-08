@@ -26,7 +26,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 
 import loginService from 'services/login'
 
-const LoginPage = ({ setUser }) => {
+const LoginPage = ({ setUser, setRememberMe }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -64,10 +64,10 @@ const LoginPage = ({ setUser }) => {
         username,
         password,
       })
-      console.log('user logged in :>> ', username)
       setUsername('') // form fields emptied
       setPassword('')
-      setUser(user, saveUser)
+      setRememberMe(saveUser)
+      setUser(user)
       navigate('/home')
     } catch (exception) {
       console.log('exception :>> ', exception)

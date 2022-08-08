@@ -11,7 +11,12 @@ import {
   IconButton,
   Hide,
 } from '@chakra-ui/react'
-import { ChevronDownIcon, HamburgerIcon, LockIcon } from '@chakra-ui/icons'
+import {
+  ChevronDownIcon,
+  HamburgerIcon,
+  InfoIcon,
+  LockIcon,
+} from '@chakra-ui/icons'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { ColorModeSwitcher } from './ColorModeSwitcher'
 
@@ -26,9 +31,16 @@ const Header = ({ user, removeUser }) => {
   }
 
   return (
-    <Box w={'100%'} p={4} display={'grid'} gridTemplateColumns={'1fr 1fr'}>
+    <Box w={'100%'} p={4} display={'grid'} gridTemplateColumns={'1fr 1fr 1fr'}>
+      <Box display={'flex'} alignItems={'center'}>
+        <NavLink to="/home">
+          <Button variant={'ghost'} colorScheme={'yellow'}>
+            LOGO
+          </Button>
+        </NavLink>
+      </Box>
       <Box
-        gridColumnStart={2}
+        gridColumnStart={3}
         marginLeft={'auto'}
         display={'flex'}
         gap={4}
@@ -68,6 +80,9 @@ const Header = ({ user, removeUser }) => {
             </Show>
             <MenuList>
               {/* <MenuItem icon={<SettingsIcon></SettingsIcon>}>Settings</MenuItem> */}
+              <NavLink to={'/profile'}>
+                <MenuItem icon={<InfoIcon></InfoIcon>}>Profile</MenuItem>
+              </NavLink>
               <MenuItem icon={<LockIcon></LockIcon>} onClick={handleLogout}>
                 Log out
               </MenuItem>

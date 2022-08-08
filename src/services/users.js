@@ -7,4 +7,9 @@ const signup = async credentials => {
   return response.data
 }
 
-export default { signup }
+const update = async (id, newObject) => {
+  const response = await axios.put(`${baseUrl}/${id}`, newObject)
+  return response.data
+}
+
+export default { signup, update }

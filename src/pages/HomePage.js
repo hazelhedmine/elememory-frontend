@@ -1,25 +1,32 @@
+import { Flex, Heading } from '@chakra-ui/react'
+import CardDeckTable from 'components/cardDeck/CardDeckTable'
 import HomePageLayout from 'layouts/HomePageLayout'
-import { useNavigate } from 'react-router-dom'
-
-const { Box, Button } = require('@chakra-ui/react')
 
 const HomePage = ({ user, removeUser }) => {
-  const navigate = useNavigate()
-
-  console.log('user :>> ', user)
-
-  const handleLogout = event => {
-    event.preventDefault()
-    removeUser()
-    navigate('/', { replace: true })
-  }
-
   return (
     <HomePageLayout user={user} removeUser={removeUser}>
-      <Box>hi {user.username}</Box>
-      <Button colorScheme={'yellow'} onClick={handleLogout}>
-        Log out
-      </Button>
+      <Flex direction={'column'} justify="center">
+        <Flex direction={'column'} align={'left'} m={10} gap={2}>
+          <Heading
+            as={'h3'}
+            size={'md'}
+            textAlign={{ base: 'center', md: 'left' }}
+          >
+            Hi {user.username}, here are your
+          </Heading>
+          <Heading
+            as={'h1'}
+            size={'2xl'}
+            textAlign={{ base: 'center', md: 'left' }}
+          >
+            Card Decks
+          </Heading>
+        </Flex>
+
+        <Flex justify="center">
+          <CardDeckTable></CardDeckTable>
+        </Flex>
+      </Flex>
     </HomePageLayout>
   )
 }

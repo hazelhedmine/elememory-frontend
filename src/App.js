@@ -6,9 +6,10 @@ import SignupPage from 'pages/SignupPage'
 import LoginPage from 'pages/LoginPage'
 import HomePage from 'pages/HomePage'
 import useUser from 'hooks/useUser'
+import ProfilePage from 'pages/ProfilePage'
 
 function App() {
-  const { user, setUser, removeUser } = useUser()
+  const { user, setUser, setRememberMe, removeUser } = useUser()
 
   return (
     <ChakraProvider theme={theme}>
@@ -22,7 +23,12 @@ function App() {
         <Route path="/sign-up" element={<SignupPage></SignupPage>}></Route>
         <Route
           path="/login"
-          element={<LoginPage setUser={setUser}></LoginPage>}
+          element={
+            <LoginPage
+              setUser={setUser}
+              setRememberMe={setRememberMe}
+            ></LoginPage>
+          }
         ></Route>
         <Route
           path="/home"
@@ -32,6 +38,16 @@ function App() {
             ) : (
               <Navigate to="/" />
             )
+          }
+        ></Route>
+        <Route
+          path="/profile"
+          element={
+            <ProfilePage
+              user={user}
+              setUser={setUser}
+              removeUser={removeUser}
+            ></ProfilePage>
           }
         ></Route>
       </Routes>
