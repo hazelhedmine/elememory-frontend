@@ -1,4 +1,3 @@
-import React from 'react'
 import { ChakraProvider, theme } from '@chakra-ui/react'
 import LandingPage from 'pages/LandingPage'
 import { Navigate, Route, Routes } from 'react-router-dom'
@@ -7,9 +6,28 @@ import LoginPage from 'pages/LoginPage'
 import HomePage from 'pages/HomePage'
 import useUser from 'hooks/useUser'
 import ProfilePage from 'pages/ProfilePage'
+import { useEffect, useState } from 'react'
+
+import userService from 'services/users'
 
 function App() {
-  const { user, setUser, setRememberMe, removeUser } = useUser()
+  const { setStorage, setRememberMe, removeStorage, storage, getToken } =
+    useUser()
+
+  const [user, setUser] = useState()
+
+  // useEffect(() => {
+  //   if (!storage) {
+  //     return
+  //   }
+  //   console.log('effect')
+  //   const token = getToken()
+  //   userService.get(storage.id, token).then(response => {
+  //     setUser(response[0])
+  //     console.log('response[0] :>> ', response[0])
+  //     console.log('user :>> ', user)
+  //   })
+  // }, [storage])
 
   return (
     <ChakraProvider theme={theme}>
@@ -18,23 +36,30 @@ function App() {
         <Route
           exact
           path="/"
-          element={user ? <Navigate to="/home" /> : <LandingPage />}
+          element={storage ? <Navigate to="/home" /> : <LandingPage />}
         ></Route>
         <Route path="/sign-up" element={<SignupPage></SignupPage>}></Route>
         <Route
           path="/login"
           element={
             <LoginPage
-              setUser={setUser}
+              setStorage={setStorage}
               setRememberMe={setRememberMe}
+              setUser={setUser}
             ></LoginPage>
           }
         ></Route>
         <Route
           path="/home"
           element={
-            user ? (
-              <HomePage user={user} removeUser={removeUser}></HomePage>
+            storage ? (
+              <HomePage
+                user={user}
+                setUser={setUser}
+                storage={storage}
+                removeStorage={removeStorage}
+                getToken={getToken}
+              ></HomePage>
             ) : (
               <Navigate to="/" />
             )
@@ -43,11 +68,17 @@ function App() {
         <Route
           path="/profile"
           element={
-            <ProfilePage
-              user={user}
-              setUser={setUser}
-              removeUser={removeUser}
-            ></ProfilePage>
+            storage ? (
+              <ProfilePage
+                user={user}
+                setUser={setUser}
+                storage={storage}
+                removeStorage={removeStorage}
+                getToken={getToken}
+              ></ProfilePage>
+            ) : (
+              <Navigate to="/"></Navigate>
+            )
           }
         ></Route>
       </Routes>

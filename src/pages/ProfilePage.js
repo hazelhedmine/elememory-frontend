@@ -1,4 +1,7 @@
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+/*
+TODO: implement change password functionality
+*/
+
 import {
   FormControl,
   FormLabel,
@@ -11,30 +14,39 @@ import {
   useBoolean,
   HStack,
   Box,
-  InputGroup,
-  InputRightElement,
   useToast,
   FormHelperText,
 } from '@chakra-ui/react'
 import RequiredInputField from 'components/signupForm/RequiredInputField'
 import HomePageLayout from 'layouts/HomePageLayout'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import userService from 'services/users'
 
-const ProfilePage = ({ user, setUser, removeUser }) => {
-  const [username, setUsername] = useState(user.username)
-  const [firstName, setFirstName] = useState(user.firstName)
-  const [lastName, setLastName] = useState(user.lastName)
-  const [password, setPassword] = useState(user.password)
-  const [showPassword, setShowPassword] = useState(false)
+const ProfilePage = ({ user, setUser, storage, removeStorage, getToken }) => {
+  const [username, setUsername] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  // const [password, setPassword] = useState(user.password)
+  // const [showPassword, setShowPassword] = useState(false)
   const [editMode, setEditMode] = useBoolean()
 
   const [firstNameMissing, setFirstNameMissing] = useBoolean()
   const [usernameMissing, setUsernameMissing] = useBoolean()
-  const [passwordMissing, setPasswordMissing] = useBoolean()
+  // const [passwordMissing, setPasswordMissing] = useBoolean()
 
   const hideOnEditMode = { display: editMode ? 'none' : '' }
   const showOnEditMode = { display: editMode ? '' : 'none' }
+
+  useEffect(() => {
+    console.log('effect')
+    const token = getToken()
+    userService.get(storage.id, token).then(response => {
+      const user = response[0]
+      setUsername(user.username)
+      setFirstName(user.firstName)
+      setLastName(user.lastName)
+    })
+  }, [storage])
 
   const errorToast = useToast()
 
@@ -54,11 +66,11 @@ const ProfilePage = ({ user, setUser, removeUser }) => {
       setUsernameMissing.on()
     }
 
-    if (password === '') {
-      setPasswordMissing.on()
-    }
+    // if (password === '') {
+    //   setPasswordMissing.on()
+    // }
 
-    if (!firstName || !username || !password) {
+    if (!firstName || !username) {
       errorToast({
         title: 'Missing fields.',
         description: 'Please fill in all the required fields.',
@@ -70,11 +82,10 @@ const ProfilePage = ({ user, setUser, removeUser }) => {
     }
 
     try {
-      const newUser = await userService.update(user.id, {
+      const newUser = await userService.update(storage.id, {
         username,
         firstName,
         lastName,
-        password,
       })
       setUser(newUser)
       setEditMode.off()
@@ -96,7 +107,7 @@ const ProfilePage = ({ user, setUser, removeUser }) => {
   }
 
   return (
-    <HomePageLayout user={user} removeUser={removeUser}>
+    <HomePageLayout storage={storage} removeStorage={removeStorage}>
       <Flex align={'center'} justify={'center'}>
         <Stack
           spacing={4}
@@ -157,7 +168,7 @@ const ProfilePage = ({ user, setUser, removeUser }) => {
                 </FormControl>
               </Box>
             </HStack>
-            <FormControl
+            {/* <FormControl
               id="password"
               isInvalid={passwordMissing}
               isRequired={editMode}
@@ -174,6 +185,7 @@ const ProfilePage = ({ user, setUser, removeUser }) => {
                 ></RequiredInputField>
                 <InputRightElement h={'full'}>
                   <Button
+                    id="seePasswordButton"
                     variant={'ghost'}
                     onClick={() =>
                       setShowPassword(showPassword => !showPassword)
@@ -183,10 +195,10 @@ const ProfilePage = ({ user, setUser, removeUser }) => {
                   </Button>
                 </InputRightElement>
               </InputGroup>
-            </FormControl>
+            </FormControl> */}
             <Stack spacing={10} pt={2} style={hideOnEditMode}>
               <Button
-                id="signUpButton"
+                id="editButton"
                 loadingText="Submitting"
                 size="lg"
                 colorScheme={'yellow'}
@@ -201,10 +213,15 @@ const ProfilePage = ({ user, setUser, removeUser }) => {
               direction={['column', 'row']}
               style={showOnEditMode}
             >
-              <Button w="full" onClick={handleClose}>
+              <Button id="cancelButton" w="full" onClick={handleClose}>
                 Cancel
               </Button>
-              <Button colorScheme={'yellow'} w="full" onClick={handleSave}>
+              <Button
+                id="saveButton"
+                colorScheme={'yellow'}
+                w="full"
+                onClick={handleSave}
+              >
                 Save
               </Button>
             </Stack>

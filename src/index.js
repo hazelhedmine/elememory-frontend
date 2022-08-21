@@ -7,6 +7,7 @@ import App from './App'
 const container = document.getElementById('root')
 const root = ReactDOM.createRoot(container)
 
+// strict mode causes components to render twice to check runtime issues
 root.render(
   <StrictMode>
     <ColorModeScript />

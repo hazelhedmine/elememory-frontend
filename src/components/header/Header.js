@@ -20,13 +20,13 @@ import {
 import { NavLink, useNavigate } from 'react-router-dom'
 import { ColorModeSwitcher } from './ColorModeSwitcher'
 
-const Header = ({ user, removeUser }) => {
-  const hideWithUser = { display: user ? 'none' : '' }
-  const showWithUser = { display: user ? '' : 'none' }
+const Header = ({ storage, removeStorage }) => {
+  const hideWithUser = { display: storage ? 'none' : '' }
+  const showWithUser = { display: storage ? '' : 'none' }
   const navigate = useNavigate()
   const handleLogout = event => {
     event.preventDefault()
-    removeUser()
+    removeStorage()
     navigate('/', { replace: true })
   }
 

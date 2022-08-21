@@ -25,8 +25,9 @@ import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 
 import loginService from 'services/login'
+import userService from 'services/users'
 
-const LoginPage = ({ setUser, setRememberMe }) => {
+const LoginPage = ({ setStorage, setRememberMe, setUser }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -67,7 +68,13 @@ const LoginPage = ({ setUser, setRememberMe }) => {
       setUsername('') // form fields emptied
       setPassword('')
       setRememberMe(saveUser)
-      setUser(user)
+      setStorage(user)
+
+      const response = await userService.get(user.id, user.token)
+      setUser(response[0])
+      console.log('response[0] :>> ', response[0])
+      console.log('user :>> ', user)
+
       navigate('/home')
     } catch (exception) {
       console.log('exception :>> ', exception)

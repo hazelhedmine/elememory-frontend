@@ -1,41 +1,60 @@
 import { useState } from 'react'
 
 const useUser = () => {
-  const getUser = () => {
+  let token = null
+
+  const STORAGE_KEY = 'loggedUser'
+
+  const getStorage = () => {
     const loggedUserJSON =
-      window.localStorage.getItem('loggedUser') ||
-      window.sessionStorage.getItem('loggedUser')
-    const user = JSON.parse(loggedUserJSON)
-    return user
+      window.localStorage.getItem(STORAGE_KEY) ||
+      window.sessionStorage.getItem(STORAGE_KEY)
+    const storage = JSON.parse(loggedUserJSON)
+    if (storage) {
+      token = storage.token
+    }
+
+    return storage
   }
 
-  const [user, setUser] = useState(getUser())
+  // const getUser = async () => {
+  //   const response = await userService.get(user.id, user.token)
+  //   return response[0]
+  // }
+
+  // const [user, setUser] = useState(getUser())
+  const [storage, setStorage] = useState(getStorage())
   const [rememberUser, setRememberUser] = useState(false)
 
   const saveDetails = isLocalStorage => {
     setRememberUser(isLocalStorage)
   }
 
-  const saveUser = user => {
+  const saveStorage = storage => {
     if (rememberUser) {
-      window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(storage))
     } else {
-      window.sessionStorage.setItem('loggedUser', JSON.stringify(user))
+      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(storage))
     }
-    setUser(user)
+    token = storage.token
+    setStorage(storage)
   }
 
-  const removeUser = user => {
-    window.localStorage.removeItem('loggedUser')
-    window.sessionStorage.removeItem('loggedUser')
-    setUser(null)
+  const removeStorage = () => {
+    window.localStorage.removeItem(STORAGE_KEY)
+    window.sessionStorage.removeItem(STORAGE_KEY)
+    setStorage(null)
+    token = null
   }
+
+  const getToken = () => token
 
   return {
-    setUser: saveUser,
+    setStorage: saveStorage,
     setRememberMe: saveDetails,
-    removeUser,
-    user,
+    removeStorage,
+    storage,
+    getToken,
   }
 }
 

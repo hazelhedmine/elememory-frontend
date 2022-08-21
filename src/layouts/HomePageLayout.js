@@ -2,7 +2,7 @@ import { Box, Flex, useColorModeValue } from '@chakra-ui/react'
 import Footer from 'components/footer/Footer'
 import Header from 'components/header/Header'
 
-const HomePageLayout = ({ user, removeUser, ...props }) => {
+const HomePageLayout = ({ storage, removeStorage, ...props }) => {
   return (
     <Box bg={useColorModeValue('yellow.100')}>
       <Flex
@@ -13,7 +13,7 @@ const HomePageLayout = ({ user, removeUser, ...props }) => {
         minH="100vh"
         {...props}
       >
-        <Header user={user} removeUser={removeUser}></Header>
+        <Header storage={storage} removeStorage={removeStorage}></Header>
         {props.children}
         <Footer></Footer>
       </Flex>
