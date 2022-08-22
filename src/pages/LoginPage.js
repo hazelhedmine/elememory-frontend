@@ -67,8 +67,9 @@ const LoginPage = ({ setStorage, setRememberMe, setUser }) => {
       })
       setUsername('') // form fields emptied
       setPassword('')
-      setRememberMe(saveUser)
-      setStorage(user)
+      // console.log('saveUser :>> ', saveUser)
+      // setRememberMe(saveUser)
+      setStorage(user, saveUser)
 
       const response = await userService.get(user.id, user.token)
       setUser(response[0])
@@ -153,7 +154,9 @@ const LoginPage = ({ setStorage, setRememberMe, setUser }) => {
               >
                 <Checkbox
                   colorScheme={'yellow'}
-                  onChange={() => setSaveUser.toggle()}
+                  onChange={() => {
+                    setSaveUser.toggle()
+                  }}
                 >
                   Remember me
                 </Checkbox>

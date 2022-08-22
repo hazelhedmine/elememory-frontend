@@ -26,7 +26,7 @@ describe('Note app', function () {
       cy.get('#signInButton').click()
 
       // home page
-      cy.contains('hi test123')
+      cy.contains('test')
     })
 
     it('user cannot login with non-existing username', function () {
@@ -36,7 +36,7 @@ describe('Note app', function () {
 
       // error toast
       cy.contains('Username does not exist.')
-      cy.get('html').should('not.contain', 'hi test123')
+      cy.get('html').should('not.contain', 'test')
     })
 
     it('user cannot login with wrong password', function () {
@@ -46,7 +46,7 @@ describe('Note app', function () {
 
       // error toast
       cy.contains('Password is wrong.')
-      cy.get('html').should('not.contain', 'hi test123')
+      cy.get('html').should('not.contain', 'test')
     })
 
     it('user cannot login with missing username', function () {
@@ -55,7 +55,7 @@ describe('Note app', function () {
 
       // error toast
       cy.contains('Missing fields.')
-      cy.get('html').should('not.contain', 'hi test123')
+      cy.get('html').should('not.contain', 'test')
     })
 
     it('user cannot login with missing password', function () {
@@ -64,7 +64,7 @@ describe('Note app', function () {
 
       // error toast
       cy.contains('Missing fields.')
-      cy.get('html').should('not.contain', 'hi test123')
+      cy.get('html').should('not.contain', 'test')
     })
   })
 
@@ -95,7 +95,7 @@ describe('Note app', function () {
       cy.get('#signInButton').click()
 
       // home page
-      cy.contains('hi test123')
+      cy.contains('test')
       cy.window()
         .its('localStorage')
         .invoke('getItem', 'loggedUser')
@@ -110,7 +110,7 @@ describe('Note app', function () {
       cy.get('#signInButton').click()
 
       // home page
-      cy.contains('hi test123')
+      cy.contains('test')
       cy.window()
         .its('sessionStorage')
         .invoke('getItem', 'loggedUser')

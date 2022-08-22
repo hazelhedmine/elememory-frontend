@@ -27,11 +27,13 @@ const useUser = () => {
   const [rememberUser, setRememberUser] = useState(false)
 
   const saveDetails = isLocalStorage => {
+    console.log('isLocalStorage :>> ', isLocalStorage)
     setRememberUser(isLocalStorage)
+    console.log('rememberUser :>> ', rememberUser)
   }
 
-  const saveStorage = storage => {
-    if (rememberUser) {
+  const saveStorage = (storage, remember) => {
+    if (remember) {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(storage))
     } else {
       window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(storage))
