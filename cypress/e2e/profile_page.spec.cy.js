@@ -50,13 +50,13 @@ describe('Note app', function () {
       cy.get('#lastNameInput').should('have.value', 'new last name')
     })
 
-    it('user can update password', function () {
-      cy.get('#passwordInput').clear().type('newpassword')
-      cy.get('#saveButton').click()
+    // it('user can update password', function () {
+    //   cy.get('#passwordInput').clear().type('newpassword')
+    //   cy.get('#saveButton').click()
 
-      // error toast
-      cy.contains('Your profile has been successfully updated.')
-      cy.get('#passwordInput').should('have.value', 'newpassword')
-    })
+    //   // error toast
+    //   cy.contains('Your profile has been successfully updated.')
+    //   cy.get('#passwordInput').should('have.value', 'newpassword')
+    // })
   })
 })
