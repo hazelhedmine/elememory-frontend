@@ -1,5 +1,16 @@
 describe('Note app', function () {
   beforeEach(function () {
+    // empty users database
+    cy.request('POST', 'http://localhost:3001/api/testing/reset')
+
+    const user = {
+      username: 'test123',
+      firstName: 'test',
+      lastName: '123',
+      password: 'test123',
+    }
+    cy.request('POST', 'http://localhost:3001/api/users/', user)
+
     cy.clearLocalStorage('loggedUser')
     cy.window().then(win => {
       win.sessionStorage.clear()
