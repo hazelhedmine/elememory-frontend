@@ -11,21 +11,21 @@ const {
   Button,
 } = require('@chakra-ui/react')
 
-const StartButton = () => {
+const DeckName = name => {
   return (
-    <Td isNumeric>
-      <Button colorScheme={'green'} size={'xs'}>
-        START
+    <Td>
+      <Button variant={'link'} size={'xs'}>
+        {name}
       </Button>
     </Td>
   )
 }
 
-const EditButton = () => {
+const StartButton = () => {
   return (
     <Td isNumeric>
-      <Button variant={'ghost'} size={'xs'}>
-        VIEW / EDIT
+      <Button colorScheme={'green'} size={'xs'}>
+        START
       </Button>
     </Td>
   )
@@ -41,7 +41,7 @@ const DeleteButton = () => {
   )
 }
 
-const CardDeckTable = props => {
+const CardDeckTable = ({ decks }) => {
   return (
     <TableContainer
       borderRadius={'2xl'}
@@ -55,41 +55,22 @@ const CardDeckTable = props => {
             <Th>name</Th>
             <Th></Th>
             <Th></Th>
-            <Th></Th>
           </Tr>
         </Thead>
 
         <Tbody>
-          <Tr>
-            <Td>Test1</Td>
-            <StartButton></StartButton>
-            <EditButton></EditButton>
-            <DeleteButton></DeleteButton>
-          </Tr>
-          <Tr>
-            <Td>Test2</Td>
-            <StartButton></StartButton>
-            <EditButton></EditButton>
-            <DeleteButton></DeleteButton>
-          </Tr>
-          <Tr>
-            <Td>Test3</Td>
-            <StartButton></StartButton>
-            <EditButton></EditButton>
-            <DeleteButton></DeleteButton>
-          </Tr>
-          <Tr>
-            <Td>Test4</Td>
-            <StartButton></StartButton>
-            <EditButton></EditButton>
-            <DeleteButton></DeleteButton>
-          </Tr>
-          <Tr>
-            <Td>Test5</Td>
-            <StartButton></StartButton>
-            <EditButton></EditButton>
-            <DeleteButton></DeleteButton>
-          </Tr>
+          {decks.map(deck => (
+            <Tr key={deck.id}>
+              {/* <Td>{deck.name}</Td> */}
+              <Td>
+                <Button variant={'link'} colorScheme={'black'} size={'s'}>
+                  {deck.name}
+                </Button>
+              </Td>
+              <StartButton></StartButton>
+              <DeleteButton></DeleteButton>
+            </Tr>
+          ))}
         </Tbody>
       </Table>
     </TableContainer>

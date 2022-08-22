@@ -16,9 +16,7 @@ const HomePage = ({ user, setUser, storage, removeStorage, getToken }) => {
       setUser(response[0])
       setFirstName(response[0].firstName)
       console.log('response[0] :>> ', response[0])
-      console.log('user :>> ', user)
       setDecks(response[0].decks)
-      console.log('decks :>> ', decks)
     })
   }, [storage])
 
@@ -43,7 +41,7 @@ const HomePage = ({ user, setUser, storage, removeStorage, getToken }) => {
         </Flex>
 
         <Flex justify="center">
-          <CardDeckTable></CardDeckTable>
+          <CardDeckTable decks={decks}></CardDeckTable>
         </Flex>
       </Flex>
     </HomePageLayout>
