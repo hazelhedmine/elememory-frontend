@@ -1,5 +1,9 @@
 describe('Note app', function () {
   beforeEach(function () {
+    cy.clearLocalStorage('loggedUser')
+    cy.window().then(win => {
+      win.sessionStorage.clear()
+    })
     cy.visit('http://localhost:3000')
   })
 
