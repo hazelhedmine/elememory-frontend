@@ -1,7 +1,6 @@
 const {
   TableContainer,
   Table,
-  TableCaption,
   Thead,
   Tr,
   Th,
@@ -11,10 +10,10 @@ const {
   Button,
 } = require('@chakra-ui/react')
 
-const DeckName = name => {
+const DeckName = ({ name }) => {
   return (
     <Td>
-      <Button variant={'link'} size={'xs'}>
+      <Button variant={'link'} colorScheme={'black'} size={'s'}>
         {name}
       </Button>
     </Td>
@@ -61,12 +60,7 @@ const CardDeckTable = ({ decks }) => {
         <Tbody>
           {decks.map(deck => (
             <Tr key={deck.id}>
-              {/* <Td>{deck.name}</Td> */}
-              <Td>
-                <Button variant={'link'} colorScheme={'black'} size={'s'}>
-                  {deck.name}
-                </Button>
-              </Td>
+              <DeckName name={deck.name}></DeckName>
               <StartButton></StartButton>
               <DeleteButton></DeleteButton>
             </Tr>

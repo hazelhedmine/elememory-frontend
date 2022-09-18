@@ -1,4 +1,5 @@
-import { Flex, Heading } from '@chakra-ui/react'
+import { AddIcon } from '@chakra-ui/icons'
+import { Button, Flex, Heading } from '@chakra-ui/react'
 import CardDeckTable from 'components/cardDeck/CardDeckTable'
 import HomePageLayout from 'layouts/HomePageLayout'
 import { useEffect, useState } from 'react'
@@ -10,7 +11,7 @@ const HomePage = ({ storage, removeStorage, getToken }) => {
   const [firstName, setFirstName] = useState('')
 
   useEffect(() => {
-    console.log('effect')
+    console.log('home page effect')
     const token = getToken()
     userService.get(storage.id, token).then(response => {
       setFirstName(response.firstName)
@@ -38,6 +39,17 @@ const HomePage = ({ storage, removeStorage, getToken }) => {
           >
             Card Decks
           </Heading>
+        </Flex>
+
+        <Flex justify="center" mb={6}>
+          <Button
+            rightIcon={<AddIcon />}
+            size="md"
+            colorScheme="yellow"
+            variant="solid"
+          >
+            Create Deck
+          </Button>
         </Flex>
 
         <Flex justify="center">
