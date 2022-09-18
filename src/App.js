@@ -14,21 +14,6 @@ function App() {
   const { setStorage, setRememberMe, removeStorage, storage, getToken } =
     useUser()
 
-  const [user, setUser] = useState()
-
-  // useEffect(() => {
-  //   if (!storage) {
-  //     return
-  //   }
-  //   console.log('effect')
-  //   const token = getToken()
-  //   userService.get(storage.id, token).then(response => {
-  //     setUser(response[0])
-  //     console.log('response[0] :>> ', response[0])
-  //     console.log('user :>> ', user)
-  //   })
-  // }, [storage])
-
   return (
     <ChakraProvider theme={theme}>
       <Routes>
@@ -45,7 +30,6 @@ function App() {
             <LoginPage
               setStorage={setStorage}
               setRememberMe={setRememberMe}
-              setUser={setUser}
             ></LoginPage>
           }
         ></Route>
@@ -54,8 +38,6 @@ function App() {
           element={
             storage ? (
               <HomePage
-                user={user}
-                setUser={setUser}
                 storage={storage}
                 removeStorage={removeStorage}
                 getToken={getToken}
@@ -70,8 +52,6 @@ function App() {
           element={
             storage ? (
               <ProfilePage
-                user={user}
-                setUser={setUser}
                 storage={storage}
                 removeStorage={removeStorage}
                 getToken={getToken}

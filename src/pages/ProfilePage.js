@@ -22,7 +22,7 @@ import HomePageLayout from 'layouts/HomePageLayout'
 import { useEffect, useState } from 'react'
 import userService from 'services/users'
 
-const ProfilePage = ({ user, setUser, storage, removeStorage, getToken }) => {
+const ProfilePage = ({ storage, removeStorage, getToken }) => {
   const [username, setUsername] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -41,12 +41,13 @@ const ProfilePage = ({ user, setUser, storage, removeStorage, getToken }) => {
     console.log('effect')
     const token = getToken()
     userService.get(storage.id, token).then(response => {
-      const user = response[0]
-      setUsername(user.username)
-      setFirstName(user.firstName)
-      setLastName(user.lastName)
+      setUsername(response.username)
+      setFirstName(response.firstName)
+      setLastName(response.lastName)
+      console.log('homepage response :>> ', response)
     })
-  }, [storage])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const errorToast = useToast()
 
@@ -87,7 +88,8 @@ const ProfilePage = ({ user, setUser, storage, removeStorage, getToken }) => {
         firstName,
         lastName,
       })
-      setUser(newUser)
+      setFirstName(newUser.firstName)
+      setLastName(newUser.lastName)
       setEditMode.off()
       errorToast({
         title: 'Your profile has been successfully updated.',

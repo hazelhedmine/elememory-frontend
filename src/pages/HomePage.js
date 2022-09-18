@@ -5,20 +5,20 @@ import { useEffect, useState } from 'react'
 
 import userService from 'services/users'
 
-const HomePage = ({ user, setUser, storage, removeStorage, getToken }) => {
+const HomePage = ({ storage, removeStorage, getToken }) => {
   const [decks, setDecks] = useState([])
-  const [firstName, setFirstName] = useState()
+  const [firstName, setFirstName] = useState('')
 
   useEffect(() => {
     console.log('effect')
     const token = getToken()
     userService.get(storage.id, token).then(response => {
-      setUser(response[0])
-      setFirstName(response[0].firstName)
-      console.log('response[0] :>> ', response[0])
-      setDecks(response[0].decks)
+      setFirstName(response.firstName)
+      console.log('homepage response :>> ', response)
+      setDecks(response.decks)
     })
-  }, [storage])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <HomePageLayout storage={storage} removeStorage={removeStorage}>

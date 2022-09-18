@@ -61,20 +61,18 @@ const LoginPage = ({ setStorage, setRememberMe, setUser }) => {
     }
 
     try {
-      const user = await loginService.login({
+      const response = await loginService.login({
         username,
         password,
       })
       setUsername('') // form fields emptied
       setPassword('')
-      // console.log('saveUser :>> ', saveUser)
-      // setRememberMe(saveUser)
-      setStorage(user, saveUser)
+      setStorage(response, saveUser)
+      // setUser()
 
-      const response = await userService.get(user.id, user.token)
-      setUser(response[0])
-      console.log('response[0] :>> ', response[0])
-      console.log('user :>> ', user)
+      // const user = await userService.get(response.id, response.token)
+      // setUser(user)
+      // console.log('user :>> ', user)
 
       navigate('/home')
     } catch (exception) {

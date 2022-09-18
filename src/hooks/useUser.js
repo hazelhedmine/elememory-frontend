@@ -1,9 +1,20 @@
 import { useState } from 'react'
+import userService from '../services/users'
 
 const useUser = () => {
   let token = null
 
   const STORAGE_KEY = 'loggedUser'
+
+  // const saveUser = async () => {
+  //   try {
+  //     console.log('saveuser storage :>> ', storage)
+  //     const response = await userService.get(storage.id, token)
+  //     return response
+  //   } catch (e) {
+  //     console.log('exception in useUser :>> ', e)
+  //   }
+  // }
 
   const getStorage = () => {
     const loggedUserJSON =
@@ -12,17 +23,12 @@ const useUser = () => {
     const storage = JSON.parse(loggedUserJSON)
     if (storage) {
       token = storage.token
+      // setUser(saveUser())
     }
-
     return storage
   }
 
-  // const getUser = async () => {
-  //   const response = await userService.get(user.id, user.token)
-  //   return response[0]
-  // }
-
-  // const [user, setUser] = useState(getUser())
+  // const [user, setUser] = useState()
   const [storage, setStorage] = useState(getStorage())
   const [rememberUser, setRememberUser] = useState(false)
 
@@ -40,6 +46,7 @@ const useUser = () => {
     }
     token = storage.token
     setStorage(storage)
+    // setUser(saveUser())
   }
 
   const removeStorage = () => {
