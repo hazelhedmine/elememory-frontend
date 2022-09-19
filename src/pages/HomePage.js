@@ -53,7 +53,7 @@ const HomePage = ({ storage, removeStorage, getToken }) => {
         ></CreateDeckButton>
 
         <Flex justify="center">
-          <CardDeckTable decks={decks}></CardDeckTable>
+          <CardDeckTable decks={decks} setDecks={setDecks}></CardDeckTable>
         </Flex>
       </Flex>
     </HomePageLayout>

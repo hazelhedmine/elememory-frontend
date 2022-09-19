@@ -1,3 +1,4 @@
+import DeleteDeckButton from 'components/deleteDeckButton/DeleteDeckButton'
 import { Link } from 'react-router-dom'
 
 const {
@@ -38,17 +39,7 @@ const StartButton = () => {
   )
 }
 
-const DeleteButton = () => {
-  return (
-    <Td isNumeric>
-      <Button colorScheme={'red'} variant={'ghost'} size={'xs'}>
-        DELETE
-      </Button>
-    </Td>
-  )
-}
-
-const CardDeckTable = ({ decks }) => {
+const CardDeckTable = ({ decks, setDecks }) => {
   return (
     <TableContainer
       borderRadius={'2xl'}
@@ -70,7 +61,11 @@ const CardDeckTable = ({ decks }) => {
             <Tr key={deck.id}>
               <DeckName name={deck.name} id={deck.id}></DeckName>
               <StartButton></StartButton>
-              <DeleteButton></DeleteButton>
+              <DeleteDeckButton
+                deckId={deck.id}
+                decks={decks}
+                setDecks={setDecks}
+              ></DeleteDeckButton>
             </Tr>
           ))}
         </Tbody>
