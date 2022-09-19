@@ -1,5 +1,5 @@
 import { AddIcon } from '@chakra-ui/icons'
-import { Button, Flex, Heading } from '@chakra-ui/react'
+import { Button, Flex, Heading, Text } from '@chakra-ui/react'
 import CardDeckTable from 'components/cardDeck/CardDeckTable'
 import HomePageLayout from 'layouts/HomePageLayout'
 import { useEffect, useState } from 'react'
@@ -30,7 +30,11 @@ const HomePage = ({ storage, removeStorage, getToken }) => {
             size={'md'}
             textAlign={{ base: 'center', md: 'left' }}
           >
-            Hi {firstName}, here are your
+            Hi{' '}
+            <Text as={'span'} color={'red.400'}>
+              {firstName}
+            </Text>
+            , here are your
           </Heading>
           <Heading
             as={'h1'}

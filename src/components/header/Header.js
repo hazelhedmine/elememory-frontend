@@ -35,7 +35,8 @@ const Header = ({ storage, removeStorage }) => {
       <Box display={'flex'} alignItems={'center'}>
         <NavLink to="/home">
           <Button variant={'ghost'} colorScheme={'yellow'}>
-            LOGO
+            {/* to replace with logo */}
+            HOME
           </Button>
         </NavLink>
       </Box>

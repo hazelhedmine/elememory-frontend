@@ -6,9 +6,7 @@ import LoginPage from 'pages/LoginPage'
 import HomePage from 'pages/HomePage'
 import useUser from 'hooks/useUser'
 import ProfilePage from 'pages/ProfilePage'
-import { useEffect, useState } from 'react'
-
-import userService from 'services/users'
+import DeckPage from 'pages/DeckPage'
 
 function App() {
   const { setStorage, setRememberMe, removeStorage, storage, getToken } =
@@ -17,7 +15,6 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <Routes>
-        {/* <Route path="/" element={<LandingPage></LandingPage>}></Route> */}
         <Route
           exact
           path="/"
@@ -56,6 +53,21 @@ function App() {
                 removeStorage={removeStorage}
                 getToken={getToken}
               ></ProfilePage>
+            ) : (
+              <Navigate to="/"></Navigate>
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/deck/:id"
+          element={
+            storage ? (
+              <DeckPage
+                storage={storage}
+                removeStorage={removeStorage}
+                getToken={getToken}
+              ></DeckPage>
             ) : (
               <Navigate to="/"></Navigate>
             )
