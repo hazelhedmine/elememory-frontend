@@ -24,7 +24,7 @@ const CreateDeckButton = ({ userId, decks, setDecks }) => {
   const formik = useFormik({
     enableReinitialize: true, //to enable update after rerender
     initialValues: {
-      decks,
+      name: '',
     },
     onReset: () => {
       onClose()
@@ -43,7 +43,7 @@ const CreateDeckButton = ({ userId, decks, setDecks }) => {
             setToast('Unknown Error', 'error')
           }
         })
-      if (res.status === 201) {
+      if (res && res.status === 201) {
         const newDeck = { name: res.data.name, id: res.data.id }
         setDecks([...decks, newDeck])
         onClose() // to close modal

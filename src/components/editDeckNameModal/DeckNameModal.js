@@ -45,7 +45,7 @@ const DeckNameModal = ({ id, label, name, setName, isOpen, onClose }) => {
             setToast('Unknown Error', 'error')
           }
         })
-      if (res.status === 200) {
+      if (res && res.status === 200) {
         setName(values.name)
         onClose() // to close modal
         setToast('Successfully Updated!', 'success')
