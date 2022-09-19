@@ -8,29 +8,20 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import Card from 'components/card/Card'
 import CreateCardButton from 'components/createCardButton/CreateCardButton'
+import DeleteCardButton from 'components/deleteCardButton/DeleteCardButton'
 import DeckNameModal from 'components/editDeckNameModal/DeckNameModal'
 import HomePageLayout from 'layouts/HomePageLayout'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import deckService from 'services/decks'
-
-const DeleteButton = () => {
-  return (
-    <Td isNumeric>
-      <Button colorScheme={'red'} variant={'ghost'} size={'xs'}>
-        DELETE
-      </Button>
-    </Td>
-  )
-}
 
 const DeckPage = ({ storage, removeStorage, getToken }) => {
   const params = useParams() //deckId is params.id
@@ -102,9 +93,15 @@ const DeckPage = ({ storage, removeStorage, getToken }) => {
               <Tbody>
                 {cards.map(card => (
                   <Tr key={card.id}>
-                    <Td>{card.question}</Td>
+                    <Td textOverflow={'ellipsis'} overflow={'hidden'}>
+                      <Text maxW={'sm'}>{card.question}</Text>
+                    </Td>
                     <Td>{card.answer}</Td>
-                    <DeleteButton></DeleteButton>
+                    <DeleteCardButton
+                      cardId={card.id}
+                      cards={cards}
+                      setCards={setCards}
+                    ></DeleteCardButton>
                   </Tr>
                 ))}
               </Tbody>
