@@ -50,7 +50,7 @@ const CardDeckTable = ({ decks, setDecks }) => {
       <Table>
         <Thead>
           <Tr>
-            <Th>name</Th>
+            <Th>name (click to edit deck)</Th>
             <Th></Th>
             <Th></Th>
           </Tr>

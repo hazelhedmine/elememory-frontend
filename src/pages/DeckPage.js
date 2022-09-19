@@ -14,6 +14,8 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
+import Card from 'components/card/Card'
+import CreateCardButton from 'components/createCardButton/CreateCardButton'
 import DeckNameModal from 'components/editDeckNameModal/DeckNameModal'
 import HomePageLayout from 'layouts/HomePageLayout'
 import { useEffect, useState } from 'react'
@@ -76,16 +78,11 @@ const DeckPage = ({ storage, removeStorage, getToken }) => {
           </Heading>
         </Flex>
 
-        <Flex justify="center" mb={6}>
-          <Button
-            rightIcon={<AddIcon />}
-            size="md"
-            colorScheme="yellow"
-            variant="solid"
-          >
-            Create Deck
-          </Button>
-        </Flex>
+        <CreateCardButton
+          deckId={params.id}
+          cards={cards}
+          setCards={setCards}
+        ></CreateCardButton>
 
         <Flex justify={'center'}>
           <TableContainer
@@ -105,7 +102,8 @@ const DeckPage = ({ storage, removeStorage, getToken }) => {
               <Tbody>
                 {cards.map(card => (
                   <Tr key={card.id}>
-                    {card.question}
+                    <Td>{card.question}</Td>
+                    <Td>{card.answer}</Td>
                     <DeleteButton></DeleteButton>
                   </Tr>
                 ))}
