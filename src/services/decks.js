@@ -7,9 +7,9 @@ const get = async id => {
   return response.data
 }
 
-const signup = async credentials => {
-  const response = await axios.post(baseUrl, credentials)
-  return response.data
+const post = async newObject => {
+  const response = await axios.post(baseUrl, newObject)
+  return response
 }
 
 const update = async (id, newObject) => {
@@ -18,4 +18,4 @@ const update = async (id, newObject) => {
   return response
 }
 
-export default { get, signup, update }
+export default { get, post, update }

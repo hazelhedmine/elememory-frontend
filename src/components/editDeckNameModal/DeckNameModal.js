@@ -19,7 +19,6 @@ import {
   ModalOverlay,
   useToast,
 } from '@chakra-ui/react'
-import axios from 'axios'
 import { useFormik } from 'formik'
 import deckService from 'services/decks'
 

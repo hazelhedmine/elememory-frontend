@@ -1,6 +1,7 @@
 import { AddIcon } from '@chakra-ui/icons'
 import { Button, Flex, Heading, Text } from '@chakra-ui/react'
 import CardDeckTable from 'components/cardDeck/CardDeckTable'
+import CreateDeckButton from 'components/createDeckButton/CreateDeckButton'
 import HomePageLayout from 'layouts/HomePageLayout'
 import { useEffect, useState } from 'react'
 
@@ -45,16 +46,11 @@ const HomePage = ({ storage, removeStorage, getToken }) => {
           </Heading>
         </Flex>
 
-        <Flex justify="center" mb={6}>
-          <Button
-            rightIcon={<AddIcon />}
-            size="md"
-            colorScheme="yellow"
-            variant="solid"
-          >
-            Create Deck
-          </Button>
-        </Flex>
+        <CreateDeckButton
+          userId={storage.id}
+          decks={decks}
+          setDecks={setDecks}
+        ></CreateDeckButton>
 
         <Flex justify="center">
           <CardDeckTable decks={decks}></CardDeckTable>
